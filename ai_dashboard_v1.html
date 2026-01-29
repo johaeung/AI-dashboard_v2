@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인천광역시 읽걷쓰 프로그램 성과 대시보드 (2023-2025)</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Pretendard', sans-serif; background-color: #f0f4f8; color: #1a202c; }
+        .dashboard-container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .card { background-color: white; border-radius: 1rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); padding: 1.5rem; display: flex; flex-direction: column; height: 100%; }
+        .section-title { font-size: 1.875rem; font-weight: 800; color: #2d3748; border-left: 6px solid #3b82f6; padding-left: 1rem; margin-bottom: 2rem; margin-top: 3rem; }
+        .kpi-item { border-top: 4px solid #3b82f6; padding-top: 1rem; }
+        .chart-box { min-height: 250px; position: relative; }
+        .analysis-text { font-size: 0.95rem; line-height: 1.6; color: #4a5568; background-color: #edf2f7; border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 0.5rem; margin-top: auto; }
+        .footer-card { background-color: #2b6cb0; color: white; padding: 2.5rem; border-radius: 1rem; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="mb-10 pb-6 border-b border-gray-200">
+            <h1 class="text-4xl font-extrabold text-blue-800 tracking-tight mb-2">📊 인천광역시 「읽걷쓰」 성과 대시보드 <span class="text-gray-600">(2023-2025)</span></h1>
+            <p class="text-xl text-gray-500 italic">"읽고 걷는 습관이 아이들의 마음을 치유하고 있습니다."</p>
+        </header>
+
+        <h2 class="section-title">1. 핵심 성과 요약 (KPI)</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 mb-10">
+            <div class="card kpi-item border-blue-500">
+                <p class="text-gray-500 text-sm font-semibold">참여자 수</p>
+                <p class="text-3xl font-bold mt-1 text-gray-800">101,467명</p>
+                <p class="text-green-600 text-sm font-semibold mt-2">▲ 81.4% <span class="ml-1 px-2 py-0.5 bg-green-100 text-green-700 rounded-full text-xs">급증</span></p>
+            </div>
+            <div class="card kpi-item border-indigo-500">
+                <p class="text-gray-500 text-sm font-semibold">도서 대출 자료 수</p>
+                <p class="text-3xl font-bold mt-1 text-gray-800">646.8만 건</p>
+                <p class="text-green-600 text-sm font-semibold mt-2">▲ 7.9% <span class="ml-1 px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full text-xs">우상향</span></p>
+            </div>
+            <div class="card kpi-item border-teal-500">
+                <p class="text-gray-500 text-sm font-semibold">방과 후 독서(30분↑) 비율</p>
+                <p class="text-3xl font-bold mt-1 text-gray-800">45.9%</p>
+                <p class="text-green-600 text-sm font-semibold mt-2">▲ 4.1%p <span class="ml-1 px-2 py-0.5 bg-teal-100 text-teal-700 rounded-full text-xs">개선</span></p>
+            </div>
+            <div class="card kpi-item border-purple-500">
+                <p class="text-gray-500 text-sm font-semibold">일평균 이동거리(걷기)</p>
+                <p class="text-3xl font-bold mt-1 text-gray-800">7,428m</p>
+                <p class="text-green-600 text-sm font-semibold mt-2">▲ 3.9% <span class="ml-1 px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full text-xs">지속증가</span></p>
+            </div>
+            <div class="card kpi-item border-orange-500">
+                <p class="text-gray-500 text-sm font-semibold">사서 인력 배치율</p>
+                <p class="text-3xl font-bold mt-1 text-gray-800">84.6%</p>
+                <p class="text-green-600 text-sm font-semibold mt-2">▲ 22.6%p <span class="ml-1 px-2 py-0.5 bg-orange-100 text-orange-700 rounded-full text-xs">인프라 확충</span></p>
+            </div>
+        </div>
+
+        <h2 class="section-title">2. 영역별 상세 분석</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+            <div class="card">
+                <h3 class="text-xl font-bold text-blue-700 mb-4"><i class="fas fa-book-open mr-2"></i>독서 및 학습 성과</h3>
+                <div class="chart-box"><canvas id="readingChart"></canvas></div>
+                <div class="analysis-text mt-4">
+                    <p><span class="font-bold text-blue-700">인프라 효과:</span> 전담인력 배치율(62%→84.6%) 급증이 도서 대출 및 방문객 수의 동반 상승을 견인했습니다.</p>
+                    <p><span class="font-bold text-blue-700">자기주도성:</span> 방과 후 독서 비율과 학습 습관 점수가 매년 소폭 상승하며 긍정적인 학습 태도를 형성 중입니다.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="text-xl font-bold text-teal-700 mb-4"><i class="fas fa-running mr-2"></i>기초체력 및 건강 증진</h3>
+                <div class="chart-box"><canvas id="walkingChart"></canvas></div>
+                <div class="analysis-text mt-4">
+                    <p><span class="font-bold text-teal-700">이동거리:</span> 1인당 이동거리가 2023년 대비 약 279m 증가하여 걷기 문화가 정착되고 있음을 시사합니다.</p>
+                    <p><span class="font-bold text-teal-700">건강 인식:</span> 평소 건강 관리 점수 또한 3.7점에서 3.77점으로 향상되었습니다.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="text-xl font-bold text-purple-700 mb-4"><i class="fas fa-heartbeat mr-2"></i>정서적 안정성 및 디지털 절제</h3>
+                <div class="chart-box"><canvas id="emotionChart"></canvas></div>
+                <div class="analysis-text mt-4">
+                    <p><span class="font-bold text-purple-700">디지털 디톡스:</span> 2024년까지 정체되었거나 소폭 상승했던 스마트폰 의존도와 우울감 지표가 2025년에 유의미하게 하락하기 시작했습니다.</p>
+                    <p><span class="font-bold text-purple-700">티핑 포인트:</span> 이는 읽걷쓰 활동이 정서적 케어에 효과를 내기 시작하는 '티핑 포인트'에 도달했음을 보여줍니다.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="text-xl font-bold text-orange-700 mb-4"><i class="fas fa-palette mr-2"></i>문화활동 경험 확대</h3>
+                <div class="chart-box"><canvas id="cultureChart"></canvas></div>
+                <div class="analysis-text mt-4">
+                    <p><span class="font-bold text-orange-700">미술관:</span> 특히 미술관 방문 인원은 2023년 2.5만 명에서 2025년 3.1만 명으로 약 21% 증가하여 문화적 소양 증진 효과가 두드러집니다.</p>
+                    <p><span class="font-bold text-orange-700">활동 확산:</span> 다양한 문화 시설 방문객 수가 전반적으로 증가하며 지역 문화 활동 참여 확대로 이어지고 있습니다.</p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">3. 프로그램 운영 효율성 분석</h2>
+        <div class="card bg-gray-800 text-white p-6 mb-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+                <div class="chart-box"><canvas id="efficiencyChart"></canvas></div>
+                <div class="space-y-4">
+                    <p class="text-lg font-bold text-blue-300"><i class="fas fa-coins mr-2"></i>예산 투입 대비 효율:</p>
+                    <p class="text-gray-300">2024년 8.1억에서 2025년 56.7억으로 예산이 대폭 증액되었습니다. 초기 인프라 구축(사서 배치 등)에 예산이 집중 투입된 만큼, 향후에는 운영 내실화를 통한 질적 성장이 기대됩니다.</p>
+                    <p class="text-lg font-bold text-blue-300"><i class="fas fa-users mr-2"></i>참여자 유입:</p>
+                    <p class="text-gray-300">예산이 약 7배 증가할 때 참여자 수는 안정적으로 10만 명을 돌파했습니다. 이는 투입 대비 효과적인 참여자 유입을 보여줍니다.</p>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer-card">
+            <h2 class="text-3xl font-bold mb-4 flex items-center"><i class="fas fa-lightbulb mr-3 text-yellow-300"></i>종합 평가 및 향후 제언</h2>
+            <p class="text-lg leading-relaxed mb-4">
+                "읽고 걷는 습관이 아이들의 마음을 치유하고 있습니다." 지난 3년간 읽걷쓰 프로그램은 <span class="font-bold text-yellow-200">외형적 성장(참여자 수, 도서관 인력)</span>뿐만 아니라 <span class="font-bold text-yellow-200">질적 변화(우울감 감소, 학습 태도 개선)</span>를 동시에 이끌어냈습니다. 특히 2025년 들어 정서 지표가 개선된 것은 매우 고무적입니다.
+            </p>
+            <div class="mt-6 pt-4 border-t border-blue-400">
+                <p class="text-xl font-bold text-blue-200 mb-3"><i class="fas fa-flag mr-2"></i>향후 과제:</p>
+                <ul class="list-disc list-inside text-lg leading-relaxed">
+                    <li>늘어난 예산만큼 프로그램의 만족도를 세밀하게 관리할 필요가 있습니다.</li>
+                    <li>방문객 수가 정체된 일부 문화 시설(문화재 등)과 연계한 '걷기 코스' 개발을 제안합니다.</li>
+                </ul>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // Chart.js 전역 기본 설정
+        Chart.defaults.font.family = "'Pretendard', sans-serif";
+        Chart.defaults.font.size = 12;
+        Chart.defaults.color = '#4a5568';
+        Chart.defaults.plugins.legend.labels.usePointStyle = true;
+        Chart.defaults.plugins.legend.labels.padding = 20;
+
+        // 공통 차트 옵션 (반응형, 비율 유지, 범례 위치)
+        const commonChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: { color: '#e2e8f0' },
+                    ticks: { color: '#4a5568' }
+                },
+                x: {
+                    grid: { display: false },
+                    ticks: { color: '#4a5568' }
+                }
+            }
+        };
+
+        // 1. 독서 및 학습 성과 차트
+        new Chart(document.getElementById('readingChart'), {
+            type: 'bar',
+            data: {
+                labels: ['2023년', '2024년', '2025년'],
+                datasets: [
+                    {
+                        label: '도서 대출(만 건)',
+                        data: [599.3, 629.1, 646.8],
+                        backgroundColor: '#4299e1',
+                        order: 2, // 막대 뒤
+                        borderRadius: 6
+                    },
+                    {
+                        label: '사서 배치율(%)',
+                        data: [62, 71.5, 84.6],
+                        type: 'line',
+                        borderColor: '#e53e3e',
+                        borderWidth: 3,
+                        fill: false,
+                        tension: 0.3,
+                        yAxisID: 'y1', // 보조 축 사용
+                        order: 1, // 선이 앞으로
+                    }
+                ]
+            },
+            options: {
+                ...commonChartOptions,
+                scales: {
+                    y: { ...commonChartOptions.scales.y, position: 'left', title: { display: true, text: '도서 대출(만 건)' } },
+                    y1: { // 보조 Y축
+                        position: 'right',
+                        beginAtZero: true,
+                        grid: { display: false },
+                        max: 100,
+                        title: { display: true, text: '사서 배치율(%)' },
+                        ticks: { color: '#e53e3e' }
+                    },
+                    x: commonChartOptions.scales.x
+                }
+            }
+        });
+
+        // 2. 기초체력 및 건강 증진 차트 (이중 축)
+        new Chart(document.getElementById('walkingChart'), {
+            type: 'bar',
+            data: {
+                labels: ['2023년', '2024년', '2025년'],
+                datasets: [
+                    {
+                        label: '일평균 이동거리(m)',
+                        data: [7149, 7304, 7428],
+                        backgroundColor: '#38a169',
+                        order: 2,
+                        borderRadius: 6
+                    },
+                    {
+                        label: '평소 건강 관리 점수(5점)',
+                        data: [3.70, 3.72, 3.77],
+                        type: 'line',
+                        borderColor: '#d69e2e',
+                        borderWidth: 3,
+                        fill: false,
+                        tension: 0.3,
+                        yAxisID: 'y1',
+                        order: 1,
+                    }
+                ]
+            },
+            options: {
+                ...commonChartOptions,
+                scales: {
+                    y: { ...commonChartOptions.scales.y, position: 'left', min: 7000, title: { display: true, text: '이동거리(m)' } },
+                    y1: {
+                        position: 'right',
+                        beginAtZero: false,
+                        grid: { display: false },
+                        min: 3.5,
+                        max: 4.0,
+                        title: { display: true, text: '건강 점수(5점)' },
+                        ticks: { color: '#d69e2e' }
+                    },
+                    x: commonChartOptions.scales.x
+                }
+            }
+        });
+
+        // 3. 정서적 안정성 및 디지털 절제 차트
+        new Chart(document.getElementById('emotionChart'), {
+            type: 'line',
+            data: {
+                labels: ['2023년', '2024년', '2025년'],
+                datasets: [
+                    {
+                        label: '스마트폰 의존도',
+                        data: [2.29, 2.30, 2.25],
+                        borderColor: '#805ad5',
+                        borderWidth: 3,
+                        fill: false,
+                        tension: 0.3,
+                    },
+                    {
+                        label: '우울감 점수',
+                        data: [2.51, 2.54, 2.44],
+                        borderColor: '#e53e3e',
+                        borderWidth: 3,
+                        fill: false,
+                        tension: 0.3,
+                    }
+                ]
+            },
+            options: {
+                ...commonChartOptions,
+                scales: {
+                    y: { ...commonChartOptions.scales.y, min: 2.0, max: 2.8, title: { display: true, text: '점수' } },
+                    x: commonChartOptions.scales.x
+                }
+            }
+        });
+
+        // 4. 문화활동 경험 확대 차트 (가로 막대형)
+        new Chart(document.getElementById('cultureChart'), {
+            type: 'bar',
+            data: {
+                labels: ['박물관', '스포츠시설', '문화재', '미술관'], // X축 레이블 (수직)
+                datasets: [
+                    {
+                        label: '2023년 방문(만 명)',
+                        data: [9.05, 14.87, 35.11, 2.5], // 실제 만 명 단위로 변환
+                        backgroundColor: '#a0aec0',
+                        borderRadius: 4
+                    },
+                    {
+                        label: '2025년 방문(만 명)',
+                        data: [9.24, 16.45, 36.18, 3.1],
+                        backgroundColor: '#f6ad55',
+                        borderRadius: 4
+                    }
+                ]
+            },
+            options: {
+                ...commonChartOptions,
+                indexAxis: 'y', // 가로 막대 그래프 설정
+                scales: {
+                    y: { // Y축 레이블 (수평)
+                        grid: { display: false },
+                        ticks: { color: '#4a5568' }
+                    },
+                    x: { // X축 (수치)
+                        beginAtZero: true,
+                        grid: { color: '#e2e8f0' },
+                        ticks: { color: '#4a5568' },
+                        title: { display: true, text: '방문객 수 (만 명)' }
+                    }
+                }
+            }
+        });
+
+        // 5. 프로그램 운영 효율성 분석 차트
+        new Chart(document.getElementById('efficiencyChart'), {
+            type: 'bar',
+            data: {
+                labels: ['2023년', '2024년', '2025년'],
+                datasets: [
+                    {
+                        label: '예산(억원)',
+                        data: [0.5, 8.1, 56.7],
+                        backgroundColor: '#3b82f6',
+                        order: 2,
+                        borderRadius: 6
+                    },
+                    {
+                        label: '참여자 수(천 명)',
+                        data: [55.9, 87.6, 101.4],
+                        type: 'line',
+                        borderColor: '#ffffff',
+                        borderWidth: 3,
+                        fill: false,
+                        tension: 0.3,
+                        yAxisID: 'y1',
+                        order: 1,
+                    }
+                ]
+            },
+            options: {
+                ...commonChartOptions,
+                scales: {
+                    y: { ...commonChartOptions.scales.y, position: 'left', ticks: { color: '#cbd5e0' }, title: { display: true, text: '예산(억원)' } },
+                    y1: {
+                        position: 'right',
+                        beginAtZero: true,
+                        grid: { display: false },
+                        title: { display: true, text: '참여자 수(천 명)' },
+                        ticks: { color: '#cbd5e0' }
+                    },
+                    x: { ...commonChartOptions.scales.x, ticks: { color: '#cbd5e0' } }
+                },
+                plugins: {
+                    legend: {
+                        labels: { color: 'white' }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

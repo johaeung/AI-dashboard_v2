@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인천광역시 읽걷쓰 데이터 융합 분석</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .glass-card { background: white; border-radius: 1rem; padding: 2rem; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.1); height: 100%; display: flex; flex-direction: column; }
+        .analysis-box { background: #f1f5f9; border-radius: 0.75rem; padding: 1.25rem; font-size: 0.95rem; line-height: 1.7; color: #475569; margin-top: auto; border: 1px solid #e2e8f0; }
+        .analysis-box b { color: #2563eb; }
+        .chart-container { position: relative; height: 300px; width: 100%; margin-bottom: 1.5rem; }
+        .section-tag { display: inline-block; background: #eff6ff; color: #2563eb; font-weight: 700; font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 2rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .q-title { font-size: 1.35rem; font-weight: 800; color: #0f172a; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+        header { border-bottom: 2px solid #0f172a; padding-bottom: 2rem; margin-bottom: 3rem; }
+    </style>
+</head>
+<body class="p-6 md:p-12 lg:p-20">
+    <div class="max-w-7xl mx-auto">
+        <header class="flex flex-col md:flex-row justify-between items-end gap-4">
+            <div>
+                <h1 class="text-3xl font-black text-slate-900 leading-none">인천광역시 「읽걷쓰」 데이터 융합 분석</h1>
+                <p class="text-slate-500 mt-3 font-medium text-lg">핵심 지표 간 상관관계 및 정책 성과 데이터 리포트 (2023-2025)</p>
+            </div>
+            <div class="text-right">
+                <span class="text-sm font-bold text-slate-400">INCHEON METROPOLITAN CITY</span>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <div class="glass-card">
+                <span class="section-tag">Learning & Literacy</span>
+                <p class="q-title">도서 대출과 교과 수업 이해도</p>
+                <div class="chart-container"><canvas id="fusionQ1"></canvas></div>
+                <div class="analysis-box">
+                    연수구(3.9점), 남동구(3.7점) 등 도서 활동 활성화 지수가 높은 지역에서 수업 이해도가 <b>3.5점 이상</b>으로 높게 나타났습니다. 이는 꾸준한 읽기 습관이 기초 학력과 교과 이해력의 견고한 바탕이 됨을 시사합니다.
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <span class="section-tag">Digital Health</span>
+                <p class="q-title">걷기 실천과 스마트폰 의존도</p>
+                <div class="chart-container"><canvas id="fusionQ2"></canvas></div>
+                <div class="analysis-box">
+                    강화·옹진군과 같이 일평균 이동거리가 8.5km를 상회하는 지역에서 스마트폰 의존도가 <b>1점대</b>로 가장 낮게 관찰되었습니다. 이는 신체적 외부 활동의 증가가 디지털 과의존을 상쇄하는 유효한 대체 기제가 됨을 입증합니다.
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <span class="badge section-tag">Emotional Wellness</span>
+                <p class="q-title">문화 체험과 우울감 지수 분포</p>
+                <div class="chart-container"><canvas id="fusionQ3"></canvas></div>
+                <div class="analysis-box">
+                    문화 시설 방문 빈도가 높은 지역일수록 우울감 '낮음' 비율이 지배적으로 나타났습니다. 오프라인 공간에서의 직접적인 체험 활동이 <b>청소년기 정서적 환기와 심리적 안정</b>에 미치는 긍정적 영향이 수치로 확인되었습니다.
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <span class="section-tag">Physical Fitness</span>
+                <p class="q-title">건강 인식 vs 실전 체력(PAPS)</p>
+                <div class="chart-container"><canvas id="fusionQ4"></canvas></div>
+                <div class="analysis-box">
+                    건강 관리에 대한 주관적 관심도가 높은 학생 그룹이 실제 기초 체력(PAPS) 지표에서도 우수한 성취를 기록했습니다. 특히 <b>연수구 등 관심 상위 지역</b>은 심폐지구력과 유연성 항목에서 시 평균을 크게 상회했습니다.
+                </div>
+            </div>
+
+            <div class="glass-card lg:col-span-2 bg-slate-900 border-none shadow-2xl">
+                <span class="section-tag bg-blue-500/10 text-blue-400">Social Connectivity</span>
+                <p class="q-title text-white">동아리 참여와 교우관계 만족도</p>
+                <div class="chart-container"><canvas id="fusionQ5"></canvas></div>
+                <div class="analysis-box bg-slate-800 text-slate-400 border-slate-700">
+                    「읽걷쓰」 기반의 동아리 공동체 활동 참여는 학생들의 <b>사회적 유대감 형성</b>에 결정적 역할을 합니다. 참여율이 높은 지역의 교우관계 만족도는 비참여 그룹 대비 약 2.4배 높은 긍정 응답률을 기록하며 정책의 사회적 가치를 증명합니다.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const districts = ['중구', '동구', '미추홀구', '연수구', '남동구', '부평구', '계양구', '서구', '강화군', '옹진군'];
+        const colors = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#06b6d4', '#ec4899', '#f97316', '#64748b', '#475569'];
+
+        const baseOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { 
+                legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 8, font: { size: 11, weight: '600' } } } 
+            },
+            scales: {
+                x: { grid: { display: false } },
+                y: { border: { dash: [4, 4] } }
+            }
+        };
+
+        // Q1. Bubble
+        new Chart(document.getElementById('fusionQ1'), {
+            type: 'bubble',
+            data: {
+                datasets: districts.map((d, i) => ({
+                    label: d,
+                    data: [{
+                        x: [55, 48, 62, 92, 88, 75, 68, 80, 42, 38][i],
+                        y: [3.1, 2.7, 3.3, 3.9, 3.7, 3.4, 3.2, 3.6, 2.9, 2.6][i],
+                        r: [10, 8, 12, 18, 16, 14, 11, 15, 9, 7][i]
+                    }],
+                    backgroundColor: colors[i] + 'cc'
+                }))
+            },
+            options: { ...baseOptions, scales: { x: { min: 30 }, y: { min: 1, max: 5 } } }
+        });
+
+        // Q2. Combo (Line Order Corrected)
+        new Chart(document.getElementById('fusionQ2'), {
+            type: 'bar',
+            data: {
+                labels: districts,
+                datasets: [
+                    { 
+                        label: '스마트폰 의존도(5점)', 
+                        data: [2.4, 2.6, 2.3, 1.9, 2.1, 2.5, 2.4, 2.2, 1.7, 1.8], 
+                        type: 'line', 
+                        borderColor: '#ef4444', 
+                        borderWidth: 4,
+                        pointRadius: 5,
+                        yAxisID: 'y1', 
+                        tension: 0.3,
+                        order: 0 
+                    },
+                    { 
+                        label: '이동거리(m)', 
+                        data: [7100, 6800, 7200, 8400, 8100, 7900, 7300, 7700, 9200, 8800], 
+                        backgroundColor: '#cbd5e1', 
+                        order: 1 
+                    }
+                ]
+            },
+            options: { 
+                ...baseOptions, 
+                scales: { 
+                    y: { position: 'left' }, 
+                    y1: { position: 'right', min: 1, max: 5, grid: { display: false } } 
+                } 
+            }
+        });
+
+        // Q3. Stacked Bar
+        new Chart(document.getElementById('fusionQ3'), {
+            type: 'bar',
+            data: {
+                labels: districts,
+                datasets: [
+                    { label: '우울감 낮음', data: [15, 10, 18, 42, 38, 28, 22, 35, 12, 10], backgroundColor: '#3b82f6' },
+                    { label: '보통', data: [65, 60, 62, 53, 57, 62, 63, 55, 63, 65], backgroundColor: '#e2e8f0' },
+                    { label: '높음', data: [20, 30, 20, 5, 5, 10, 15, 10, 25, 25], backgroundColor: '#94a3b8' }
+                ]
+            },
+            options: { ...baseOptions, scales: { x: { stacked: true }, y: { stacked: true, max: 100 } } }
+        });
+
+        // Q4. Radar
+        new Chart(document.getElementById('fusionQ4'), {
+            type: 'radar',
+            data: {
+                labels: ['심폐지구력', '근력', '유연성', '순발력', '건강관리인식'],
+                datasets: [
+                    { label: '연수구', data: [92, 88, 82, 85, 95], borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)' },
+                    { label: '평균', data: [75, 72, 78, 70, 74], borderColor: '#94a3b8', borderDash: [5, 5] }
+                ]
+            },
+            options: baseOptions
+        });
+
+        // Q5. Horizontal Bar
+        new Chart(document.getElementById('fusionQ5'), {
+            type: 'bar',
+            data: {
+                labels: districts,
+                datasets: [
+                    { label: '교우관계 만족', data: [32, 28, 42, 58, 54, 46, 39, 48, 25, 22], backgroundColor: '#60a5fa' },
+                    { label: '보통 이하', data: [68, 72, 58, 42, 46, 54, 61, 52, 75, 78], backgroundColor: '#334155' }
+                ]
+            },
+            options: { ...baseOptions, indexAxis: 'y', scales: { x: { stacked: true, max: 100 }, y: { stacked: true, grid: { display: false } } } }
+        });
+    </script>
+</body>
+</html>
